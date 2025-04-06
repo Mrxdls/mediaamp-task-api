@@ -1,0 +1,24 @@
+expense-tracker/
+│── app/
+│   ├── __init__.py
+│   ├── models.py        # SQLAlchemy Models
+│   ├── database.py      # Database connection
+│   ├── config.py        # Environment variables
+│   ├── routes/          # API Endpoints (Blueprints)
+│   │   ├── __init__.py
+│   │   ├── task_routes.py
+│   │   ├── user_routes.py
+│   ├── services/        # Business logic
+│   │   ├── __init__.py
+│   │   ├── task_service.py
+│   │   ├── user_service.py
+│   ├── repositories/    # Database queries
+│   │   ├── __init__.py
+│   │   ├── task_repo.py
+│   │   ├── user_repo.py
+│── migrations/          # Alembic migration scripts
+│── .env                 # Environment variables
+│── requirements.txt     # Dependencies
+│── docker-compose.yml   # Docker setup
+│── run.py               # Entry point
+│── README.md            # Documentation
