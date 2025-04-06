@@ -13,7 +13,7 @@ celery = make_celery()
 celery.conf.beat_schedule = {
     "daily_task":{
         "task": "APP.Services.log_transter.log_active_tasks",
-        "schedule": crontab(hour=0, minute=0)
+        "schedule": crontab(hour=2, minute=43)
         # Run every day at midnight
     }
 }

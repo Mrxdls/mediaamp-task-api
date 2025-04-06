@@ -82,7 +82,50 @@ python3 run.py
 
 App will be live at `http://127.0.0.1:5000/`.
 
+### 6. Database Migrations
+
+If you make changes to the database models, you need to handle migrations.
+1. **Initialize the Migrations Folder** (only needed once):
+  ```
+   flask db init
+   flask db migrate -m "Your migration message"
+   flask db upgrade
+  ```
+
 ---
+
+### **Add Celery Commands**
+
+#### **Under Setup Instruction**
+Add the folling Section after "Database Migrations":
+
+### 7. Start Celery
+celery is used for backgraund task like logging active tasks. you need to start both the worker and the beat Scheduler.
+
+1. **Start the Celery Worker:**
+```
+celelry -A APP.Services.celery_app.celery worker --loglevel = info
+```
+2. **Start the Celery Beat Schedular**
+```
+python3 celery_manual.py
+```
+### **Add Automation Details**
+#### **Under Project Structure**
+Add a note about automation in [run.py]:
+- **Database Migrations**: Migrations are automatically applied using the `upgrade()` function in run.py.
+
+#### Add Example Code Snippets
+#### Automate Database Migrations
+
+Migrations are automated in `run.py`. when you start 
+```
+python3 [run.py]
+```
+
+---
+
+
 
 ## 🔐 API Endpoints
 

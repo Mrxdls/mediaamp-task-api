@@ -2,9 +2,12 @@
 __pycache__/
 *.py[cod]
 *.pyo
-
+*.dat
+*.bak
+*.dir
 
 credentials.py
+**/migrations/
 
 test.py
 

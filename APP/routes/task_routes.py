@@ -1,3 +1,4 @@
+import json
 from flask import request, jsonify, Blueprint
 from APP.models import User, TaskManager, TaskLogger, Audit_logger, indian_time, indian_date
 from APP.database import db
@@ -389,7 +390,7 @@ def get_task_by_date(date):
     for task in task:
         task_list.append(
             {
-                id: task.id,
+                "id": task.id,
                 "task_name": task.task_name,
                 "description": task.description,
                 "is_active": task.is_active,
@@ -397,9 +398,9 @@ def get_task_by_date(date):
                 "assigned_user": task.assigned_user   
             }
         )
-        redis_client.set(key, jsonify(task_list))
-        redis_client.expire(key, 3600)
-        return jsonify(
+    redis_client.set(key, json.dumps(task_list), ex=3600)
+    redis_client.expire(key, 3600)
+    return jsonify(
             {
                 "task_list": task_list,
                 "message": "Task found successfully",

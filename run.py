@@ -3,6 +3,7 @@ from APP import create_app
 from APP.database import initialize_db
 from APP.Services.initialize_admin import initialize_admin_user
 from flask_apscheduler import APScheduler
+from flask_migrate import upgrade
 # from APP.Services.task_logger import log_active_tasks
 
 scheduler = APScheduler()
@@ -15,9 +16,9 @@ def main():
         initialize_db(app)
         initialize_admin_user()
         print("Database initialized successfully.")
-        # scheduler.init_app(app)
-        # scheduler.start()
-    return app
+        upgrade()
+        print("Database migrations applied successfully.")
+        return app
 
 if __name__ == "__main__":
     
