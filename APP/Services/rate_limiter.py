@@ -1,7 +1,7 @@
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask import request
-from credentials import REDIS_URL
+from APP.config import REDIS_URL
 
 
 limiter = Limiter(

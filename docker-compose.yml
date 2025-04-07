@@ -1,0 +1,66 @@
+services:
+  web:
+    build: .
+    container_name: flask_app
+    command: python run.py
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5433/mediaamp_db
+      - REDIS_URL=redis://redis:6377/0
+      - SECRET_KEY=your-secret-key
+      - JWT_SECRET_KEY=your-jwt-secret-key
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mediaamp_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5433"
+
+  redis:
+    image: redis:6
+    container_name: redis_cache
+    ports:
+      - "6377:6377"
+
+  celery_worker:
+    build: .
+    container_name: celery_worker
+    command: celery -A APP.celery_app.celery worker --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - web
+      - redis
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5433/mediaamp_db
+      - REDIS_URL=redis://redis:6377/0
+
+  celery_beat:
+    build: .
+    container_name: celery_beat
+    command: celery -A APP.celery_app.celery beat --loglevel=info
+    volumes:
+      - .:/app
+    depends_on:
+      - web
+      - redis
+      - db
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5433/mediaamp_db
+      - REDIS_URL=redis://redis:6377/0
+
+volumes:
+  postgres_data:

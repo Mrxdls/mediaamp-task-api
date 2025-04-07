@@ -1,11 +1,12 @@
 from celery import Celery
-from credentials import REDIS_URL
 from celery.schedules import crontab
+from dotenv import load_dotenv
+load_dotenv()
 def make_celery(app_name=__name__):
     celery = Celery(
         app_name, 
-        broker=REDIS_URL,
-        backend=REDIS_URL
+        broker='REDIS_URL',
+        backend='REDIS_URL'
     )
     return celery
 celery = make_celery()
